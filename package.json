@@ -1,6 +1,6 @@
 {
 	"name": "hotpush",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Zero-dependency file watcher that auto-uploads changes to remote servers via SCP",
 	"type": "module",
 	"bin": {
