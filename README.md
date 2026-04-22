@@ -33,7 +33,6 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
 {
   "username": "john",
   "agent": "$SSH_AUTH_SOCK",
-  "privateKey": "~/.ssh/id_rsa",
   "ignore": [
     "node_modules",
     ".git",
