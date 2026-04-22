@@ -62,6 +62,8 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
 | `username` | OS username | SSH username for all profiles |
 | `agent` | — | SSH agent socket (e.g. `$SSH_AUTH_SOCK`) |
 | `privateKey` | `~/.ssh/id_rsa` | Path to SSH private key |
+
+> **Note:** Use `agent` OR `privateKey` for authentication, not both. If you have an SSH agent running, use `agent`. Otherwise, point `privateKey` to your key file.
 | `port` | `22` | SSH port |
 | `ignore` | `["node_modules", ".git", ".svn", ".DS_Store"]` | Paths/segments to ignore |
 
