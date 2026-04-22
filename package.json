@@ -1,0 +1,33 @@
+{
+	"name": "autopush",
+	"version": "1.0.0",
+	"description": "Zero-dependency file watcher that auto-uploads changes to remote servers via SCP",
+	"type": "module",
+	"bin": {
+		"autopush": "./bin/autopush.js"
+	},
+	"files": [
+		"bin/",
+		"lib/",
+		"README.md"
+	],
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"keywords": [
+		"scp",
+		"sftp",
+		"rsync",
+		"file-watcher",
+		"deploy",
+		"upload",
+		"sync",
+		"ssh"
+	],
+	"author": "Will Brock",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WillBrock/autopush.git"
+	}
+}
