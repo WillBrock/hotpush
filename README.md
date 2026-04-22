@@ -1,4 +1,4 @@
-# autopush
+# hotpush
 
 Zero-dependency file watcher that auto-uploads changes to remote servers via SCP.
 
@@ -7,7 +7,7 @@ Watch local directories for file changes and automatically push them to one or m
 ## Install
 
 ```bash
-npm install -g autopush
+npm install -g hotpush
 ```
 
 Requires Node.js 18+ and `scp`/`ssh` in your PATH. For `--sync`, `rsync` is also required.
@@ -18,20 +18,20 @@ Requires Node.js 18+ and `scp`/`ssh` in your PATH. For `--sync`, `rsync` is also
 
 ```bash
 # Create a config file
-autopush init
+hotpush init
 
-# Edit ~/.autopush.json with your server details
+# Edit ~/.hotpush.json with your server details
 # Then start watching
-autopush --profile myserver
+hotpush --profile myserver
 ```
 
 ## Config
 
-Config lives at `~/.autopush.json`. Top-level fields are shared defaults; profiles inherit them and can override.
+Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profiles inherit them and can override.
 
 ```json
 {
-  "username": "will",
+  "username": "john",
   "agent": "$SSH_AUTH_SOCK",
   "privateKey": "~/.ssh/id_rsa",
   "ignore": [
@@ -42,12 +42,12 @@ Config lives at `~/.autopush.json`. Top-level fields are shared defaults; profil
     ".vscode"
   ],
   "profiles": {
-    "lab": {
-      "host": "lab.example.com",
+    "dev": {
+      "host": "dev.example.com",
       "remotePath": "/var/www/project"
     },
-    "testing": {
-      "host": "testing.example.com",
+    "sandbox": {
+      "host": "sandbox.example.com",
       "remotePath": "/var/www/project",
       "username": "deploy"
     }
@@ -81,28 +81,28 @@ Config lives at `~/.autopush.json`. Top-level fields are shared defaults; profil
 Ignore patterns support two styles:
 
 - **Segment match** — `node_modules` matches any path containing a `node_modules` segment
-- **Path prefix** — `focus-automation/node_modules` matches only that specific nested path
+- **Path prefix** — `tools/node_modules` matches only that specific nested path
 
 ## Usage
 
 ```bash
 # Watch current directory, upload to one profile
-autopush --profile lab
+hotpush --profile dev
 
 # Upload to multiple servers simultaneously
-autopush --profile lab --profile testing
+hotpush --profile dev --profile sandbox
 
 # Watch specific directories only
-autopush --profile lab --watch src/ modules/
+hotpush --profile dev --watch src/ modules/
 
 # Full rsync sync first, then watch for changes
-autopush --profile lab --sync
+hotpush --profile dev --sync
 
 # Create starter config file
-autopush init
+hotpush init
 
 # Show help
-autopush --help
+hotpush --help
 ```
 
 ## How it works
@@ -126,7 +126,7 @@ npm login
 npm publish
 
 # After publishing, anyone can install with:
-npm install -g autopush
+npm install -g hotpush
 ```
 
 ## License

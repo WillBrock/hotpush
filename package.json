@@ -1,10 +1,10 @@
 {
-	"name": "autopush",
+	"name": "hotpush",
 	"version": "1.0.0",
 	"description": "Zero-dependency file watcher that auto-uploads changes to remote servers via SCP",
 	"type": "module",
 	"bin": {
-		"autopush": "./bin/autopush.js"
+		"hotpush": "./bin/hotpush.js"
 	},
 	"files": [
 		"bin/",
@@ -28,6 +28,6 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/WillBrock/autopush.git"
+		"url": "https://github.com/WillBrock/hotpush.git"
 	}
 }
