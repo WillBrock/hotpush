@@ -47,7 +47,10 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
     },
     "sandbox": {
       "host": "sandbox.example.com",
-      "remotePath": "/var/www/project",
+      "remotePath": [
+        "/var/www/project",
+        "/var/www/project-shared"
+      ],
       "username": "deploy"
     }
   }
@@ -71,11 +74,34 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
 | Field | Required | Description |
 |---|---|---|
 | `host` | Yes | Server hostname or IP |
-| `remotePath` | Yes | Remote base directory |
+| `remotePath` | Yes | Remote base directory, or an array of directories |
 | `username` | No | Override top-level username |
 | `privateKey` | No | Override top-level key |
 | `agent` | No | Override top-level agent |
 | `port` | No | Override top-level port |
+
+### Multiple remote directories
+
+`remotePath` accepts either:
+
+- A string for the existing single-destination behavior
+- An array of strings to push the same file changes to multiple remote directories on the same host
+
+Example:
+
+```json
+{
+  "profiles": {
+    "dev": {
+      "host": "dev.example.com",
+      "remotePath": [
+        "/var/www/project",
+        "/var/www/project-shared"
+      ]
+    }
+  }
+}
+```
 
 ### Ignore patterns
 
@@ -116,6 +142,8 @@ hotpush --help
 6. Creates remote directories as needed via `ssh mkdir -p`
 
 Each profile has its own serial upload queue with deduplication, so uploads to different servers happen in parallel while individual servers are never overwhelmed.
+
+If a profile uses an array for `remotePath`, each change and each `--sync` is sent to every listed destination in that profile.
 
 ## Publishing to npm
 
