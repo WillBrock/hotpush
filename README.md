@@ -47,11 +47,17 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
     },
     "sandbox": {
       "host": "sandbox.example.com",
-      "remotePath": [
-        "/var/www/project/src",
-        "/var/www/project/modules"
-      ],
+      "remotePath": "/var/www/project",
       "username": "deploy"
+    },
+    "redirects": {
+      "host": "redirects.example.com",
+      "pathMap": {
+        "School_Setup/SchoolWebsite": "/mnt/sftp/redirects/focus/School_Setup/SchoolWebsite",
+        "classes/SchoolWebsite": "/mnt/sftp/redirects/focus/classes/SchoolWebsite",
+        "assets/school-website": "/mnt/sftp/redirects/focus/assets/school-website",
+        "AI": "/mnt/sftp/redirects/focus/AI"
+      }
     }
   }
 }
@@ -74,11 +80,14 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
 | Field | Required | Description |
 |---|---|---|
 | `host` | Yes | Server hostname or IP |
-| `remotePath` | Yes | Remote base directory, or an array of directories |
+| `remotePath` | No* | Remote base directory, or an array of directories |
+| `pathMap` | No* | Object mapping local subpaths to remote base directories |
 | `username` | No | Override top-level username |
 | `privateKey` | No | Override top-level key |
 | `agent` | No | Override top-level agent |
 | `port` | No | Override top-level port |
+
+`*` Each profile must define exactly one of `remotePath` or `pathMap`.
 
 ### Multiple remote directories
 
@@ -108,6 +117,34 @@ Example:
 ```bash
 hotpush --profile dev --watch src/ modules/
 ```
+
+### Path Map Routing
+
+Use `pathMap` when you want to watch one project root and route different subtrees to different remote destinations.
+
+Example:
+
+```json
+{
+  "profiles": {
+    "redirects": {
+      "host": "redirects.example.com",
+      "pathMap": {
+        "School_Setup/SchoolWebsite": "/mnt/sftp/redirects/focus/School_Setup/SchoolWebsite",
+        "classes/SchoolWebsite": "/mnt/sftp/redirects/focus/classes/SchoolWebsite",
+        "assets/school-website": "/mnt/sftp/redirects/focus/assets/school-website",
+        "AI": "/mnt/sftp/redirects/focus/AI"
+      }
+    }
+  }
+}
+```
+
+```bash
+hotpush --profile redirects
+```
+
+With `pathMap`, hotpush watches the current directory once, then picks the matching remote destination based on the changed file's local path prefix.
 
 ### Ignore patterns
 
@@ -150,6 +187,8 @@ hotpush --help
 Each profile has its own serial upload queue with deduplication, so uploads to different servers happen in parallel while individual servers are never overwhelmed.
 
 If a profile uses an array for `remotePath`, each watched directory is paired with the remote path at the same index instead of broadcasting every file to every destination.
+
+If a profile uses `pathMap`, files are routed by the longest matching local path prefix, so a change under `classes/SchoolWebsite/...` only uploads to that mapped remote base.
 
 ## Publishing to npm
 
