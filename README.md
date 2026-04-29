@@ -48,8 +48,8 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
     "sandbox": {
       "host": "sandbox.example.com",
       "remotePath": [
-        "/var/www/project",
-        "/var/www/project-shared"
+        "/var/www/project/src",
+        "/var/www/project/modules"
       ],
       "username": "deploy"
     }
@@ -85,7 +85,9 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
 `remotePath` accepts either:
 
 - A string for the existing single-destination behavior
-- An array of strings to push the same file changes to multiple remote directories on the same host
+- An array of strings to map watched directories to remote directories by order
+
+When you use a `remotePath` array, the number of remote paths must match the number of directories passed to `--watch`. Files from the first watched directory go to the first remote path, files from the second watched directory go to the second remote path, and so on.
 
 Example:
 
@@ -95,12 +97,16 @@ Example:
     "dev": {
       "host": "dev.example.com",
       "remotePath": [
-        "/var/www/project",
-        "/var/www/project-shared"
+        "/var/www/project/src",
+        "/var/www/project/modules"
       ]
     }
   }
 }
+```
+
+```bash
+hotpush --profile dev --watch src/ modules/
 ```
 
 ### Ignore patterns
@@ -143,7 +149,7 @@ hotpush --help
 
 Each profile has its own serial upload queue with deduplication, so uploads to different servers happen in parallel while individual servers are never overwhelmed.
 
-If a profile uses an array for `remotePath`, each change and each `--sync` is sent to every listed destination in that profile.
+If a profile uses an array for `remotePath`, each watched directory is paired with the remote path at the same index instead of broadcasting every file to every destination.
 
 ## Publishing to npm
 
