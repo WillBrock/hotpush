@@ -50,13 +50,13 @@ Config lives at `~/.hotpush.json`. Top-level fields are shared defaults; profile
       "remotePath": "/var/www/project",
       "username": "deploy"
     },
-    "redirects": {
-      "host": "redirects.example.com",
+    "generic": {
+      "host": "generic.example.com",
       "pathMap": {
-        "School_Setup/SchoolWebsite": "/mnt/sftp/redirects/focus/School_Setup/SchoolWebsite",
-        "classes/SchoolWebsite": "/mnt/sftp/redirects/focus/classes/SchoolWebsite",
-        "assets/school-website": "/mnt/sftp/redirects/focus/assets/school-website",
-        "AI": "/mnt/sftp/redirects/focus/AI"
+        "Foo/Bar": "/sftp/generic/baz/Setup/Bar",
+        "classes/Bar": "/sftp/generic/baz/classes/Bar",
+        "assets/": "/sftp/generic/baz/assets/",
+        "AI": "/sftp/generic/baz/AI"
       }
     }
   }
@@ -102,15 +102,15 @@ Example:
 
 ```json
 {
-  "profiles": {
-    "dev": {
-      "host": "dev.example.com",
-      "remotePath": [
-        "/var/www/project/src",
-        "/var/www/project/modules"
-      ]
+  "generic": {
+      "host": "generic.example.com",
+      "pathMap": {
+        "Foo/Bar": "/sftp/generic/baz/Setup/Bar",
+        "classes/Bar": "/sftp/generic/baz/classes/Bar",
+        "assets/": "/sftp/generic/baz/assets/",
+        "AI": "/sftp/generic/baz/AI"
+      }
     }
-  }
 }
 ```
 
@@ -127,21 +127,20 @@ Example:
 ```json
 {
   "profiles": {
-    "redirects": {
-      "host": "redirects.example.com",
+    "generic": {
+      "host": "generic.example.com",
       "pathMap": {
-        "School_Setup/SchoolWebsite": "/mnt/sftp/redirects/focus/School_Setup/SchoolWebsite",
-        "classes/SchoolWebsite": "/mnt/sftp/redirects/focus/classes/SchoolWebsite",
-        "assets/school-website": "/mnt/sftp/redirects/focus/assets/school-website",
-        "AI": "/mnt/sftp/redirects/focus/AI"
+        "Foo/Bar": "/sftp/generic/baz/Setup/Bar",
+        "classes/Bar": "/sftp/generic/baz/classes/Bar",
+        "assets/": "/sftp/generic/baz/assets/",
+        "AI": "/sftp/generic/baz/AI"
       }
     }
-  }
 }
 ```
 
 ```bash
-hotpush --profile redirects
+hotpush --profile generic
 ```
 
 With `pathMap`, hotpush watches the current directory once, then picks the matching remote destination based on the changed file's local path prefix.
